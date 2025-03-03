@@ -1,0 +1,79 @@
+{% extends 'table_app/base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Отчет</h2>
+    
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4">
+                {{ form.start_date.label_tag }}
+                {{ form.start_date }}
+            </div>
+            <div class="col-md-4">
+                {{ form.end_date.label_tag }}
+                {{ form.end_date }}
+            </div>
+            <div class="col-md-4">
+                {{ form.currency.label_tag }}
+                {{ form.currency }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Сформировать отчет</button>
+    </form>
+
+    {% if report_data %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Тип</th>
+                    <th>Валюта</th>
+                    <th>Назначение</th>
+                    {% for date in dates %}
+                    <th class="text-right">{{ date }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in report_data %}
+                <tr {% if row.purpose == 'Итог' %}class="table-info font-weight-bold"{% endif %}>
+                    <td>{{ row.type }}</td>
+                    <td>{{ row.currency }}</td>
+                    <td>{{ row.purpose }}</td>
+                    {% for date in dates %}
+                    <td class="text-right" {% if row.purpose == 'Итог' %}style="font-weight: bold;"{% endif %}>
+                        {% with value=row|get_item:date %}
+                            {% if value %}
+                                {{ value }}
+                            {% else %}
+                                0.00
+                            {% endif %}
+                        {% endwith %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .text-right {
+        text-align: right;
+    }
+    .table th {
+        background-color: #f8f9fa;
+    }
+    .table-info {
+        background-color: #e2f0fb !important;
+    }
+    .font-weight-bold {
+        font-weight: bold;
+    }
+</style>
+{% endblock %} 

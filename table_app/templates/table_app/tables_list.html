@@ -1,0 +1,127 @@
+{% extends 'table_app/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Загруженные таблицы</h2>
+    
+    {% if tables %}
+        <div class="row">
+            {% for table in tables %}
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                {{ table.sheet_name }}
+                                <small class="text-muted">(ID: {{ table.id }})</small>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <strong>Дата загрузки:</strong> {{ table.uploaded_at|date:"d.m.Y H:i" }}
+                            </p>
+                            <p class="card-text">
+                                <strong>Количество записей:</strong> {{ table.data_json|length }}
+                            </p>
+                            <p class="card-text">
+                                <strong>Поля в таблице:</strong>
+                            </p>
+                            <ul class="list-group">
+                                {% for field in table.fields %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ field }}
+                                        <span class="badge bg-primary rounded-pill">
+                                            {% if field in table.required_fields %}
+                                                Обязательное
+                                            {% else %}
+                                                Опциональное
+                                            {% endif %}
+                                        </span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <div class="btn-group">
+                                <a href="{% url 'index' %}" class="btn btn-primary">Просмотр данных</a>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#appendModal{{ table.id }}">
+                                    Добавить данные
+                                </button>
+                                <button type="button" class="btn btn-danger" data-table-id="{{ table.id }}">
+                                    Удалить
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Модальное окно добавления данных -->
+                <div class="modal fade" id="appendModal{{ table.id }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Добавить данные в таблицу "{{ table.sheet_name }}"</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <form method="post" action="{% url 'append_to_table' table.id %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="file{{ table.id }}" class="form-label">Файл с данными</label>
+                                        <input type="file" class="form-control" id="file{{ table.id }}" name="file" accept=".xlsx,.xls,.csv,.ods" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                    <button type="submit" class="btn btn-success">Добавить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            Нет загруженных таблиц. <a href="{% url 'index' %}">Загрузить новую таблицу</a>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Модальное окно подтверждения удаления -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Подтверждение удаления</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите удалить эту таблицу? Это действие нельзя отменить.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <form id="deleteForm" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[data-table-id]').forEach(button => {
+        button.addEventListener('click', function() {
+            const tableId = this.getAttribute('data-table-id');
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            const form = document.getElementById('deleteForm');
+            form.action = `/tables/${tableId}/delete/`;
+            modal.show();
+        });
+    });
+});
+</script>
+{% endblock %} 

@@ -13,8 +13,14 @@ services:
       - "8000:8000"
     env_file:
       - .env
+    user: "1000:1000"
 
 volumes:
   static_volume:
   media_volume:
-  sqlite_volume: 
+  sqlite_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/site/table/app/db 

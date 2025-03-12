@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: support-backend
+    restart: always
+    environment:
+      - DATABASE_URL=sqlite:///./support.db
+    volumes:
+      - ./backend/support.db:/app/support.db
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    container_name: support-frontend
+    restart: always
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  bot:
+    build: ./bot
+    container_name: support-bot
+    restart: always
+    environment:
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+      - WEBAPP_URL=${WEBAPP_URL}
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: support-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

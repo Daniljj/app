@@ -1,0 +1,49 @@
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - db_volume:/app/db
+    ports:
+      - "8000:8000"
+
+volumes:
+  static_volume:
+  media_volume:
+  db_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: C:\python\app_alex
+
+# version: '3.8'
+
+# services:
+#   web:
+#     build: .
+#     command: gunicorn --bind 0.0.0.0:8000 table_project.wsgi:application
+#     volumes:
+#       - .:/app
+#       - static_volume:/app/staticfiles
+#       - media_volume:/app/media
+#       - ./db:/app/db
+#     ports:
+#       - "8000:8000"
+#     env_file:
+#       - .env
+#     user: "root"
+
+# volumes:
+#   static_volume:
+#   media_volume:
+#   db_volume:
+#   sqlite_volume:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       o: bind
+#       device: /home/site/table/app/db 

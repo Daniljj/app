@@ -1,0 +1,468 @@
+{% extends 'ritual_app/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<style>
+    .hero-section {
+        background-image: url("{% static 'admin/img/fon/1.jpg' %}");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 60px 0;
+    }
+
+    .hero-container {
+        position: relative;
+        width: 80%;
+        max-width: 1000px;
+        padding: 40px;
+        border-radius: 100px / 100px;
+        /* Создает овальную форму */
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(5px);
+        transition: background 0.3s ease;
+        margin: 0 auto;
+    }
+
+    .hero-container:hover {
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .hero-container h1 {
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-container p {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-container .hero-button {
+        position: relative;
+        z-index: 2;
+    }
+</style>
+
+<section id="hero" class="hero-section text-center">
+    <div class="hero-container" data-aos="fade-up">
+        <h1 class="display-4 mb-2 text-white">ГОРОДСКАЯ РИТУАЛЬНАЯ СЛУЖБА</h1>
+        <p class="lead mb-4 text-white">Полный спектр профессиональных ритуальных услуг в г. Азов</p>
+        <div class="d-flex justify-content-center gap-0">
+            <button class="hero-button left-rounded" onclick="showModal('Организация похорон')">ОРГАНИЗОВАТЬ
+                ПОХОРОНЫ</button>
+            <button class="hero-button right-rounded" onclick="showModal('Установка памятника')">УСТАНОВИТЬ
+                ПАМЯТНИК</button>
+        </div>
+    </div>
+</section>
+
+<style>
+    .steps-section {
+        background-image: url("{% static 'admin/img/fon/steps.jpg' %}");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 60px 0;
+    }
+</style>
+
+<section id="steps" class="steps-section">
+    <div class="container" data-aos="fade-up">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="text-center mb-4 text-white" style="font-size: 35px;">ЧТО ДЕЛАТЬ, КОГДА УМИРАЕТ БЛИЗКИЙ
+                    ЧЕЛОВЕК?</h3>
+                <hr style="border-color: #dc3545; margin: 20px 0; width: 95%; border-width: 1px; margin-left: 0;">
+                <p class="mb-4 text-white" style="font-size: 28px;">Потеря близких — это всегда большое горе...</p>
+                <p class="mb-4 text-white" style="font-size: 28px;">Вам необходимо успокоиться, собраться и заняться
+                    оформлением всех документов,
+                    а также
+                    подготовкой к похоронам.</p>
+                <hr style="border-color: #dc3545; margin: 20px 0; width: 95%; border-width: 1px; margin-left: 0;">
+                <p class="mb-4 text-white" style="font-size: 28px;"><b>Рекомендуемый порядок Ваших действий:</b></p>
+
+                <div class="steps-list mb-4">
+                    <div class="step">
+                        <h4 class="text-white" style="font-size: 28px;">1. Вызовите сотрудника нашей службы.</h4>
+                        <p class="text-white" style="font-size: 22px;">Наша служба работает профессионально и
+                            оперативно, и мы не оставим Вас без
+                            поддержки на
+                            каждом этапе организации похорон.</p>
+                    </div>
+
+                    <div class="step">
+                        <h4 class="text-white" style="font-size: 28px;">2. Приготовьте паспорт покойного, а также
+                            паспорта людей, находящихся
+                            рядом с усопшим.</h4>
+                    </div>
+
+                    <div class="step">
+                        <h4 class="text-white" style="font-size: 28px;">3. После приезда сотрудника ритуальной службы,
+                            вместе с ним вызовите
+                            полицию и скорую
+                            помощь.</h4>
+                    </div>
+                </div>
+
+                <p class="mb-4 text-white" style="font-size: 28px;">Более от Вас никаких действий не нужно. Можете
+                    заниматься необходимыми для
+                    Вас делами -
+                    наш специалист всё сделает за Вас. Кроме того, специалист уполномочен к урегулированию всех
+                    вопросов, связанных с организацией места под захоронение и оформлением требующихся документов.</p>
+
+                <p class="mb-3 text-white" style="font-size: 28px;">Также мы поможем с:</p>
+                <ul class="list-unstyled" style="font-size: 22px;">
+                    <li class="mb-2">- доставкой тела покойного в морг и на кладбище;</li>
+                    <li class="mb-2">- организацией прощания с близким человеком (захоронения и поминок);</li>
+                    <li>- установкой памятника и ограды.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" style="background-color: rgb(48, 48, 48); padding-top: 0;">
+    <div class="container" data-aos="fade-up">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center">
+                    <img src="{% static 'admin/img/bot_container.png' %}" alt="Разделитель" class="img-fluid"
+                        style="width: 550px; height: 122px;">
+                </div>
+                <h3 class="text-center mb-5 text-white" style="font-size: 35px;">О НАШЕЙ ОРГАНИЗАЦИИ</h3>
+                <div class="about-content text-center text-white" style="line-height: 1.3;">
+                    <p class="mb-3">Наша служба занимается организацией похорон и предоставляет полный комплекс
+                        ритуальных услуг и похоронных принадлежностей.</p>
+
+                    <p class="mb-3">У нас работают настоящие профессионалы своего дела, которые гарантируют
+                        высочайшее качество предоставляемых услуг.</p>
+
+                    <p class="mb-3">Мы работаем по г. Азову, Азовскому району, а также по всей Ростовской области.</p>
+
+                    <div class="text-center">
+                        <img src="{% static 'admin/img/midl_container.png' %}" alt="Разделитель" class="img-fluid"
+                            style="width: 480px; height: 122px;">
+                    </div>
+
+                    <p class="mb-3">Также мы изготавливаем намогильные сооружения: памятники из гранита, мрамора.
+                        Благоустраиваем комплексы захоронения.</p>
+
+                    <p class="mb-3">Устанавливаем ограды, столы, лавки, навесы.</p>
+
+                    <p class="mb-3">Работаем только с натуральным камнем - природный гранит из Карелии, Украины. Мрамор
+                        уральский, а также из Полевского карьера.</p>
+
+                    <div class="text-center">
+                        <img src="{% static 'admin/img/bot_container.png' %}" alt="Разделитель" class="img-fluid"
+                            style="width: 550px; height: 122px; transform: rotate(-180deg);">
+                    </div>
+
+                    <button class="hero-button rounded-button mt-2"
+                        onclick="showModal('Расчет стоимости похорон')">РАССЧИТАТЬ СТОИМОСТЬ
+                        ПОХОРОН</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .advantages-section {
+        background-image: url("{% static 'admin/img/fon/advantages.jpg' %}");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 60px 0;
+    }
+</style>
+
+<section id="advantages" class="advantages-section text-white">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">ПРЕИМУЩЕСТВА РАБОТЫ С НАМИ</h2>
+        <div class="row mb-5">
+            <div class="col-md-6" data-aos="fade-right" data-aos-delay="100">
+                <div class="advantage-item text-center mb-4">
+                    <div class="advantage-content" style="border: none; flex-direction: column;">
+                        <img src="{% static 'admin/img/advantages/1.png' %}" alt="Преимущество 1" class="mb-4"
+                            style="width: 200px; height: 200px; object-fit: contain;">
+                        <p>Работаем на рынке ритуальных услуг более 10 лет</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" data-aos="fade-left" data-aos-delay="200">
+                <div class="advantage-item text-center mb-4">
+                    <div class="advantage-content" style="border: none; flex-direction: column;">
+                        <img src="{% static 'admin/img/advantages/2.png' %}" alt="Преимущество 2" class="mb-4"
+                            style="width: 200px; height: 200px; object-fit: contain;">
+                        <p>Оформление похорон в одном месте, Вам не нужно никуда ехать - наши специалисты во всём
+                            помогут</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-md-4">
+                <div class="advantage-item text-center mb-4">
+                    <div class="advantage-content" style="border: none; flex-direction: column;">
+                        <img src="{% static 'admin/img/advantages/3.png' %}" alt="Преимущество 3" class="mb-4"
+                            style="width: 200px; height: 200px; object-fit: contain;">
+                        <p>Работаем круглосуточно, без перерывов и выходных</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="advantage-item text-center mb-4">
+                    <div class="advantage-content" style="border: none; flex-direction: column;">
+                        <img src="{% static 'admin/img/advantages/4.png' %}" alt="Преимущество 4" class="mb-4"
+                            style="width: 200px; height: 200px; object-fit: contain;">
+                        <p>Всегда предложим доступные цены и широкий ассортимент ритуальных товаров и услуг</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="advantage-item text-center mb-4">
+                    <div class="advantage-content" style="border: none; flex-direction: column;">
+                        <img src="{% static 'admin/img/advantages/5.png' %}" alt="Преимущество 5" class="mb-4"
+                            style="width: 200px; height: 200px; object-fit: contain;">
+                        <p>Полное сопровождение процесса - наш специалист всегда с Вами на связи</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button class="hero-button rounded-button" onclick="showModal('Консультация по услугам')">ПОЛУЧИТЬ ПОДРОБНУЮ
+                КОНСУЛТАЦИЮ</button>
+        </div>
+    </div>
+</section>
+
+<section id="gallery"
+    style="background-color: rgb(48, 48, 48); padding-top: 0; padding-bottom: 0; box-shadow: inset 0 20px 30px -10px rgba(0, 0, 0, 0.8);">
+    <div class=" container">
+        <div class="text-center">
+            <img src="{% static 'admin/img/bot_container.png' %}" alt="Разделитель" class="img-fluid"
+                style="max-width: 50%;">
+        </div>
+        <h2 class="text-center mb-4 text-white" data-aos="fade-up">ФОТОГАЛЛЕРЕЯ НАШИХ РАБОТ</h2>
+        <div class="row">
+            {% for image in gallery_images %}
+            <div class="col-md-3 mb-4" data-aos="zoom-in" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                <div class="gallery-item">
+                    <img src="{{ image.image.url }}" alt="{{ image.title }}" class="img-fluid"
+                        style="width: 270px; height: 202.5px; object-fit: cover;">
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <img src="{% static 'admin/img/midl_container.png' %}" alt="Разделитель" class="img-fluid"
+                style="max-width: 50%;">
+        </div>
+    </div>
+</section>
+
+<section id="catalog"
+    style="background-color: rgb(48, 48, 48); padding-top: 0; box-shadow: inset 0 -20px 30px -10px rgba(0, 0, 0, 0.8);">
+    <div class="container">
+        <h2 class="text-center mb-4 text-white">КАТАЛОГ ПРЕДЛАГАЕМОЙ ПРОДУКЦИИ</h2>
+        <div class="row justify-content-between">
+            {% for image in catalog_images %}
+            <div class="col px-1" style="flex: 0 0 20%; max-width: 20%;">
+                <div class="catalog-item text-center">
+                    <img src="{{ image.image.url }}" alt="{{ image.title }}" class="img-fluid"
+                        style="width: 175px; height: 262.5px; object-fit: cover;">
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:5 and not forloop.last %}
+        </div>
+        <div class="row justify-content-between mt-3">
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <img src="{% static 'admin/img/bot_container.png' %}" alt="Разделитель" class="img-fluid"
+                style="max-width: 50%; transform: rotate(-180deg);">
+        </div>
+    </div>
+</section>
+
+<style>
+    .help-section {
+        background-image: url("{% static 'admin/img/fon/help.jpg' %}");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100%;
+        height: auto;
+        transition: min-height 0.3s ease-out;
+    }
+
+    .help-item1 {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        margin-bottom: 15px;
+        backdrop-filter: blur(5px);
+    }
+
+    .help-question {
+        color: white;
+        padding: 10px;
+        font-weight: 500;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .help-answer {
+        color: rgba(255, 255, 255, 0.9);
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease-out;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 0 15px;
+        opacity: 0;
+    }
+
+    .arrow {
+        color: white;
+        transition: transform 0.3s ease;
+        display: inline-block;
+        margin-right: 5px;
+    }
+</style>
+
+<section id="help" class="help-section">
+    <div class="container" data-aos="fade-up">
+        <h2 class="text-center mb-4 text-white">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h2>
+        <div class="row mb-4">
+            <!-- Первый вопрос -->
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="help-item">
+                    <p class="help-question" onclick="toggleAnswer(this)">
+                        <span class="arrow">></span> Где получить пособие на погребение?
+                    </p>
+                    <div class="help-answer">
+                        Пособие на погребение получают, если человек вышел на пенсию (не важно, по болезни или
+                        по возрасту), и если он не работал официально. В таком случае, пособие выплачивает
+                        территориальный
+                        отдел ПФР. Если человек не был пенсионером, и не работал официально (с момента увольнения должно
+                        пройти не менее 6 месяцев), то пособие выплачивает территориальный отдел социальный защиты
+                        (СОБЕС). Если человек работал официально, то федеральное пособие выплачивается работодателем.
+                    </div>
+                </div>
+            </div>
+            <!-- Второй вопрос -->
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="help-item">
+                    <p class="help-question" onclick="toggleAnswer(this)">
+                        <span class="arrow">></span> Выделяется ли бесплатное место на кладбище?
+                    </p>
+                    <div class="help-answer">
+                        Каждому усопшему, зарегистрированному в г. Азове, выделяется бесплатное место на
+                        муниципальном кладбище. Оплачивается только комплекс услуг по захоронению. Каждому усопшему,
+                        зарегистрированному в Ростовской области, также выделяют место на кладбище, в том городе, где
+                        усопший был зарегистрирован. Оплачивается только комплекс услуг по захоронению.
+                    </div>
+                </div>
+            </div>
+            <!-- Третий вопрос -->
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="help-item">
+                    <p class="help-question" onclick="toggleAnswer(this)">
+                        <span class="arrow">></span> Как получить свидетельство о смерти, если паспорт усопшего утерян?
+                    </p>
+                    <div class="help-answer">
+                        Если паспорт усопшего утерян, необходимо получить в ближайшем МФЦ ("Мои Документы") выписку
+                        из домовой книги. На основании этой выписки выдаётся свидетельство о смерти.
+                    </div>
+                </div>
+            </div>
+            <!-- Четвертый вопрос -->
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="help-item">
+                    <p class="help-question" onclick="toggleAnswer(this)">
+                        <span class="arrow">></span> В какие вещи необходимо облачать усопших?
+                    </p>
+                    <div class="help-answer">
+                        Мужчины:<br>
+                        • майка, нижнее бельё, носки;<br>
+                        • рубашка;<br>
+                        • костюм (пиджак, брюки);<br>
+                        • носовой платок;<br>
+                        • обувь;<br>
+                        • галстук (если усопший при жизни любил носить).<br>
+                        <br>
+                        Женщины:<br>
+                        • ночная рубашка (майка);<br>
+                        • платье однотонное с длинным рукавом и закрытой грудью;<br>
+                        • нижнее белье, колготки (чулки);<br>
+                        • косынка (платок) для покрытия головы;<br>
+                        • носовой платок;<br>
+                        • обувь.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <button class="hero-button rounded-button" onclick="showModal('Получить консультацию')">ПОЛУЧИТЬ ПОДРОБНУЮ
+                КОНСУЛТАЦИЮ</button>
+        </div>
+    </div>
+</section>
+
+<section id="contacts" class="bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Контакты</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="contact-info">
+                    <p class="font-weight-bold mb-4">"Городская Ритуальная Служба"</p>
+                    <p class="mb-4">Ростовская обл., г. Азов, пер. Парковый, 1</p>
+                    <p class="mb-4">График работы офиса: ПН-ПТ 8:00-16:00, СБ 8:00-14:00</p>
+                    <p class="mb-4">Телефон / WhatsApp: <span class="phone-link" onclick="copyPhone()">+7 938 131 0
+                            131</span></p>
+                    <p class="mb-4">E-Mail: <span class="email-link" onclick="copyEmail()">ritual-azov@yandex.ru</span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="map-container" id="map"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://api-maps.yandex.ru/2.1/?apikey=b7565363-ad2f-4683-955a-63559018957e&lang=ru_RU"
+    type="text/javascript"></script>
+<script>
+    ymaps.ready(function () {
+        var myMap = new ymaps.Map("map", {
+            center: [47.095862, 39.419081], // Координаты Азова
+            zoom: 17
+        });
+        var myPlacemark = new ymaps.Placemark([47.095862, 39.419081], {
+            hintContent: 'Городская Ритуальная Служба',
+            balloonContent: 'Ростовская обл., г. Азов, пер. Парковый, 1'
+        });
+        myMap.geoObjects.add(myPlacemark);
+    });
+
+    function toggleAnswer(element) {
+        const helpItem = element.closest('.help-item');
+        const allHelpItems = document.querySelectorAll('.help-item');
+
+        // Закрываем все остальные элементы
+        allHelpItems.forEach(item => {
+            if (item !== helpItem) {
+                item.classList.remove('active');
+            }
+        });
+
+        // Переключаем активный элемент
+        helpItem.classList.toggle('active');
+    }
+</script>
+{% endblock %}

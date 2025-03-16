@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ритуальные услуги</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .nav-link {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: rgba(255, 255, 255, 0.75) !important;
+        }
+
+        section {
+            min-height: 500px;
+            padding: 40px 0;
+        }
+
+        .nav-button {
+            padding: 4px 15px;
+            /* уменьшили padding */
+            margin: 0;
+            /* убрали отступы */
+            border-radius: 0;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, .5);
+            cursor: pointer;
+            transition: color .15s ease-in-out;
+            display: block;
+            text-align: left;
+            width: 100%;
+        }
+
+        .nav-button:hover {
+            background: transparent;
+            color: rgba(255, 255, 255, .75);
+            transform: none;
+        }
+
+        .nav-buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            /* убрали расстояние между кнопками */
+            border-top: none;
+            /* убрали разделительную линию */
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        @media (min-width: 992px) {
+            .nav-buttons-container {
+                border-top: none;
+                margin-top: 0;
+                padding-top: 0;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .nav-button {
+                margin: 5px 0;
+                width: 100%;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 400px;
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 10px;
+            background: #343a40;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.5) !important;
+            backdrop-filter: blur(10px);
+            border: none;
+        }
+
+        .navbar-dark .navbar-nav .nav-link,
+        .navbar-dark .navbar-brand,
+        .nav-button {
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar-dark .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .navbar-dark .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .navbar-nav {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .navbar-nav .nav-item {
+            text-align: center;
+        }
+
+        .nav-link {
+            display: inline-block;
+            text-align: center;
+        }
+
+        .navbar-collapse {
+            justify-content: center;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-nav {
+                gap: 0;
+                text-align: center;
+            }
+
+            .nav-item {
+                margin: 5px 0;
+            }
+
+            .nav-item:nth-last-child(2),
+            .nav-item:last-child {
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                margin-top: 10px;
+                padding-top: 10px;
+            }
+        }
+
+        .nav-buttons-container {
+            position: absolute;
+            right: 15px;
+        }
+
+        @media (max-width: 991px) {
+            .nav-buttons-container {
+                position: static;
+                margin-top: 10px;
+            }
+        }
+
+        .hero-button {
+            padding: 12px 25px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            background-color: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .hero-button:hover {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        /* Стили для кнопок в светлых секциях */
+        section:not(.advantages-section):not(.bg-dark) .hero-button {
+            border-color: rgb(255, 255, 255);
+            background-color: rgba(0, 0, 0, 0.1);
+            color: #ffffff;
+        }
+
+        section:not(.advantages-section):not(.bg-dark) .hero-button:hover {
+            border-color: #dc3545;
+            color: #dc3545;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стили для белой кнопки в темной секции advantages */
+        .advantages-section .hero-button.text-white {
+            border-color: white;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .advantages-section .hero-button.text-white:hover {
+            border-color: #dc3545;
+            color: #dc3545;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .left-rounded {
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-right: 1px solid rgba(0, 0, 0, 0.5);
+        }
+
+        .right-rounded {
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            border-left: 1px solid rgba(0, 0, 0, 0.5);
+        }
+
+        .gap-4 {
+            gap: 1.5rem;
+        }
+
+        .gap-0 {
+            gap: 0 !important;
+        }
+
+        section#hero {
+            padding-bottom: 0;
+            min-height: auto;
+        }
+
+        section#hero {
+            min-height: 500px;
+            padding: 40px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-container {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .steps-list .step {
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            border-left: 3px solid #343a40;
+        }
+
+        .steps-list h4 {
+            color: #343a40;
+            margin-bottom: 1rem;
+        }
+
+        .list-unstyled li {
+            color: white;
+            padding-left: 1rem;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-content p {
+            font-size: 22px;
+            font-weight: normal;
+            line-height: 1.1;
+            letter-spacing: inherit;
+        }
+
+        .advantage-item {
+            padding: 20px;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .advantage-content {
+            padding: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .advantage-content p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .advantage-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .advantage-content:hover p {
+            color: #dc3545;
+            text-shadow: 0 0 1px #000000, 0 0 1px #000000;
+        }
+
+        .help-item {
+            padding: 10px 15px;
+            height: auto;
+        }
+
+        .help-question {
+            font-size: 1rem;
+            line-height: 1.2;
+            margin-bottom: 0;
+            padding: 5px 0;
+        }
+
+        .help-item {
+            padding: 15px;
+            height: 100%;
+        }
+
+        .help-question {
+            font-size: 1rem;
+            line-height: 1.4;
+            color: #343a40;
+            margin: 0;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .help-question:hover {
+            color: #dc3545;
+        }
+
+        .help-answer {
+            display: block;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            padding: 0 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #666;
+            opacity: 0;
+            transition: all 0.3s ease-out;
+        }
+
+        .help-answer.show {
+            max-height: 1000px;
+            opacity: 1;
+            padding: 15px;
+        }
+
+        .arrow {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .arrow.active {
+            transform: rotate(90deg);
+        }
+
+        .help-question {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        section#help {
+            min-height: auto;
+            padding: 40px 0 20px;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .privacy-link {
+            color: #fff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .privacy-link:hover {
+            color: #ddd;
+        }
+
+        #privacyModal .modal-content {
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        #privacyModal .modal-body {
+            white-space: pre-line;
+            text-align: left;
+            padding: 20px;
+        }
+
+        .phone-link {
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .phone-link:hover {
+            color: #dc3545;
+        }
+
+        .email-link {
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .email-link:hover {
+            color: #dc3545;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .hero-button.rounded-button {
+            border-radius: 20px;
+        }
+
+        .nav-contact-buttons {
+            margin-left: 20px;
+        }
+
+        @media (max-width: 991px) {
+            .nav-contact-buttons {
+                margin: 1px 0;
+            }
+
+            .nav-contact-buttons .nav-link {
+                margin-bottom: 1px !important;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#steps">Порядок действий</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">О нас</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#advantages">Преимущества</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#gallery">Фотогалерея</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#catalog">Каталог</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#help">Помощь</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contacts">Контакты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="copyPhone()">+7 938 131 0 131</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showModal()">Заказать обратный звонок</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Модальное окно -->
+    <div id="callbackModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="hideModal()">&times;</span>
+            <h3 class="text-center mb-4" id="modalTitle">Заказать обратный звонок</h3>
+            <form id="callbackForm" onsubmit="submitCallback(event)">
+                <input type="text" class="form-input" placeholder="Как вас зовут?" required>
+                <input type="tel" class="form-input" placeholder="Телефон для связи с Вами" required>
+                <input type="hidden" id="serviceType" name="serviceType" value="">
+                <button type="submit" class="submit-button">Отправить</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-1">©️ 2023 ИП Голомеев Александр Сергеевич, ИНН 616804704272, ОГРНИП 321619600000281</p>
+            <p class="mb-0"><span class="privacy-link" onclick="showPrivacyPolicy()">Политика конфиденциальности</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Модальное окно политики конфиденциальности -->
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="hidePrivacyPolicy()">&times;</span>
+            <div class="modal-body">
+                ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ
+
+                Для защиты ваших личных данных у нас внедрен ряд средств защиты, которые действуют при введении,
+                передаче или работе с вашими личными данными.
+
+                1. Разглашение личных сведений и передача этих сведений третьим лицам. Ваши личные сведения могут быть
+                разглашены нами только в том случае это необходимо для:
+                - Обеспечения соответствия предписаниям закона или требованиям судебного процесса в нашем отношении;
+                - Защиты наших прав или собственности;
+                - Принятия срочных мер по обеспечению личной безопасности наших сотрудников или потребителей
+                предоставляемых им услуг, а также обеспечению общественной безопасности.
+
+                Личные сведения, полученные в наше распоряжение при регистрации, могут передаваться третьим организациям
+                и лицам, состоящим с нами в партнерских отношениях для улучшения качества оказываемых услуг. Эти
+                сведения не будут использоваться в каких-либо иных целях, кроме перечисленных выше. Номер мобильного
+                телефона, предоставленный вами может использоваться для отправки вам сообщений или уведомлений об
+                изменениях, связанных с вашей заявкой или заказом, а также рассылки сообщений о происходящих в компании
+                событиях и изменениях, важной информации о новых товарах, услугах и т. д. Предусмотрена возможность
+                отказа от подписки на эти почтовые сообщения.
+
+                2. Использование файлов «cookie». Когда пользователь посещает веб-узел, на его компьютер записывается
+                файл «cookie» (если пользователь разрешает прием таких файлов). Если же пользователь уже посещал данный
+                веб-узел, файл «cookie» считывается с компьютера. Одно из направлений использования файлов «cookie»
+                связано с тем, что с их помощью облегчается сбор статистики посещения. Эти сведения помогают определять,
+                какая информация, отправляемая заказчикам, может представлять для них наибольший интерес. Сбор этих
+                данных осуществляется в обобщенном виде и никогда не соотносится с личными сведениями пользователей.
+                Третьи стороны, включая компании Google, показывают объявления нашей компании на страницах сайтов в
+                Интернете. Третьи стороны, включая компанию Google, используют cookie, чтобы показывать объявления,
+                основанные на предыдущих посещениях пользователем наших веб-сайтов и интересах в веб-браузерах.
+                Пользователи могут запретить компаниям Google использовать cookie. Для этого необходимо посетить
+                специальную страницу компании Google по этому адресу: http://www.google.com/privacy/ads/
+
+                3. Изменения в заявлении о соблюдении конфиденциальности. Заявление о соблюдении конфиденциальности
+                предполагается периодически обновлять. При этом будет изменяться дата предыдущего обновления, указанная
+                в начале документа. Сообщения об изменениях в данном заявлении будут размещаться на видном месте наших
+                веб-узлов.
+
+                4. Ваши замечания. Наши представители внимательно отнесутся ко всем вашим замечаниям по поводу
+                настоящего заявления о соблюдении конфиденциальности. Вы можете отправлять свои комментарии электронной
+                почтой. E-mail: ritual-azov{собака}yandex.ru Пожалуйста, периодически посещайте эту страницу, чтобы быть
+                в курсе последних обновлений данного соглашения.</div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+    </script>
+    <script>
+        function copyPhone() {
+            navigator.clipboard.writeText('+7 938 131 0 131');
+            alert('Номер телефона скопирован!');
+        }
+
+        function showModal(title = 'Заказать обратный звонок') {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('serviceType').value = title;
+            document.getElementById('callbackModal').style.display = 'block';
+        }
+
+        function hideModal() {
+            document.getElementById('callbackModal').style.display = 'none';
+        }
+
+        function submitCallback(event) {
+            event.preventDefault();
+            const serviceType = document.getElementById('serviceType').value;
+            const message = serviceType === 'Заказать обратный звонок'
+                ? 'Ваша заявка принята! Мы скоро с вами свяжемся.'
+                : `Ваша заявка на услугу "${serviceType}" принята! Мы скоро с вами свяжемся.`;
+            alert(message);
+            hideModal();
+        }
+
+        // Закрытие модального окна при клике вне его
+        window.onclick = function (event) {
+            if (event.target.className === 'modal') {
+                hideModal();
+                hidePrivacyPolicy();
+            }
+        }
+
+        function toggleAnswer(element) {
+            const answer = element.nextElementSibling;
+            const arrow = element.querySelector('.arrow');
+
+            if (!answer.classList.contains('show')) {
+                answer.classList.add('show');
+                arrow.classList.add('active');
+            } else {
+                answer.classList.remove('show');
+                arrow.classList.remove('active');
+            }
+        }
+
+        function showPrivacyPolicy() {
+            document.getElementById('privacyModal').style.display = 'block';
+        }
+
+        function hidePrivacyPolicy() {
+            document.getElementById('privacyModal').style.display = 'none';
+        }
+
+        function copyEmail() {
+            navigator.clipboard.writeText('ritual-azov@yandex.ru');
+            alert('Email скопирован!');
+        }
+
+        // Добавляем обработчики для плавной прокрутки
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+
+                if (targetSection) {
+                    const targetPosition = targetSection.offsetTop - navbarHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Закрываем мобильное меню после клика
+                    const navbarToggler = document.querySelector('.navbar-toggler');
+                    const navbarCollapse = document.querySelector('.navbar-collapse');
+                    if (navbarCollapse.classList.contains('show')) {
+                        navbarToggler.click();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
